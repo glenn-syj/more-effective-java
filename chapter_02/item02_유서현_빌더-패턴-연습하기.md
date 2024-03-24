@@ -193,24 +193,79 @@
 3. 빌더 패턴 (Builder Pattern)
    - 이러한 문제들을 해결하기 위해 별도의 `Builder` 클래스를 만들어 메소드를 통해 step-by-step으로 값을 입력받은 후에 최종적으로 `build()` 메소드로 하나의 인스턴스를 생성하여 리턴하는 패턴이 빌더 패턴이다.
 
-   - 사용법: 빌더 클래스의 메서드를 체이닝(Chaining) 형태로 호출함으로써 자연스럽게 인스턴스를 구성하고 마지막에 `build()` 메서드를 통해 최종적으로 객체를 생성한다.
+   - 사용법 (참고 자료 5번의 코드 참고하여 작성)
+    1. 먼저 빌더 클래스를 작성한다. 필드 멤버 변수는 `Hamburger`와 똑같이 작성한다.
+        ```java
+        class HamburgerBuilder {
+            // 필수 매개변수
+            private int bun;
+            private int patty;
+            // 선택 매개변수
+            private int cheese;
+            private int lettuce;
+            private int tomato;
+            private int bacon;
+        }
+        ```
 
-    ```java
-    public static void main(String[] args) {
+    2. 그 아래에 각 멤버에 대한 Setter 메서드를 구현해준다.
+        ```java
+            public Builder(int bun, int patty) {
+                this.bun = bun;
+                this.patty = patty;
+            }
 
-        // 생성자 방식
-        Hamburger hamburger = new Hamburger(2, 3, 0, 3, 0, 0);
+            public Builder cheese(int cheese) {
+                this.cheese = cheese;
+                return this;
+            }
 
-        // 빌더 방식
-        Hamburger hamburger = new Hamburger.Builder(10)
-            .bun(2)
-            .patty(3)
-            .lettuce(3)
-            .build();
-    }
-    ```
+            public Builder lettuce(int lettuce) {
+                this.lettuce = lettuce;
+                return this;
+            }
+
+            public Builder tomato(int tomato) {
+                this.tomato = tomato;
+                return this;
+            }
+
+            public Builder bacon(int bacon) {
+                this.bacon = bacon;
+                return this;
+            }
+        ```
+        여기서 주목할 부분은 각 Setter 함수 마지막 반환 구문인 return this 부분이다. 여기서 this란 StudentBuilder 객체 자신을 말한다.
+        
+        즉, 빌더 객체 자신을 리턴함으로써 빌더 클래스의 메서드를 체이닝(Chaining) 형태로 호출함으로써 자연스럽게 인스턴스를 구성하고,
+    
+    3. 마지막에 `build()` 메서드를 통해 최종적으로 객체를 생성한다.
+        ```java
+        public Hamburger build() {
+                // 모든 필드를 사용하여 Hamburger 객체 생성
+                return new Hamburger(bun, patty, cheese, lettuce, tomato, bacon);
+            }
+        ```
+
+        이 코드를 `main`에서 실행한다면 아래와 같다.
+            
+        ```java
+        public static void main(String[] args) {
+
+            // 빌더 방식
+            Hamburger hamburger = new Hamburger.Builder(10)
+                    .bun(2)
+                    .patty(3)
+                    .lettuce(3)
+                    .build();
+            }
+        ```
+
     - 더 이상 생성자 오버로딩 열거를 하지 않아도 되며, 데이터의 순서에 상관없이 객체를 만들어내 생성자 인자 순서를 파악할 필요도 없고 잘못된 값을 넣는 실수도 하지 않게 된다. 
     - 즉 점층적 생성자 패턴과 자바빈즈 패턴 두 가지의 장점만을 취했다.
+
+
+<br>
 
 
 **추가적으로 공부해 보고 싶은 개념**
@@ -227,14 +282,14 @@
 
 **참고 자료**
 
-*https://en.wikipedia.org/wiki/Builder_pattern*
+1. *https://en.wikipedia.org/wiki/Builder_pattern*
 
-*https://refactoring.guru/design-patterns/builder*
+2. *https://refactoring.guru/design-patterns/builder*
 
-*https://softinbit.medium.com/builder-design-pattern-constructing-complex-objects-with-ease-61bce2df3135*
+3. *https://softinbit.medium.com/builder-design-pattern-constructing-complex-objects-with-ease-61bce2df3135*
 
-*https://stackoverflow.com/questions/29881135/difference-between-builder-pattern-and-constructor*
+4. *https://stackoverflow.com/questions/29881135/difference-between-builder-pattern-and-constructor*
 
-*https://inpa.tistory.com/entry/GOF-%F0%9F%92%A0-%EB%B9%8C%EB%8D%94Builder-%ED%8C%A8%ED%84%B4-%EB%81%9D%ED%8C%90%EC%99%95-%EC%A0%95%EB%A6%AC*
+5. *https://inpa.tistory.com/entry/GOF-%F0%9F%92%A0-%EB%B9%8C%EB%8D%94Builder-%ED%8C%A8%ED%84%B4-%EB%81%9D%ED%8C%90%EC%99%95-%EC%A0%95%EB%A6%AC*
 
 
