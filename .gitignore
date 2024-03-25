@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,eclipse
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,eclipse
+# Created by https://www.toptal.com/developers/gitignore/api/macos,eclipse,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,eclipse,visualstudiocode
 
 ### Eclipse ###
 .metadata
@@ -13,6 +13,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.classpath
 
 # External tool builders
 .externalToolBuilders/
@@ -61,11 +62,44 @@ local.properties
 
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
-#.project
+.project
 
 ### Eclipse Patch ###
 # Spring Boot Tooling
 .sts4-cache/
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
 
 ### VisualStudioCode ###
 .vscode/*
@@ -86,4 +120,4 @@ local.properties
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,eclipse
+# End of https://www.toptal.com/developers/gitignore/api/macos,eclipse,visualstudiocode
