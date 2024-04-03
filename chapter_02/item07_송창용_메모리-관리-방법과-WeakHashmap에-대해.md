@@ -125,7 +125,7 @@ System.gc();
 WeakHashMap이 작동하는 원리는 WeakReference(약한 참조)와 관련되어 있으나, 약한 참조에 대해 찾아보아도 이해가 어려워 WeakHashMap에 대한 구체적인 작동 원리는 추후 약한 참조에 추가적인 탐구 이후 설명하도록 하겠다.
 
 
-References:
+References :
 
 [Guide to WeakHashMap in Java]
 https://www.baeldung.com/java-weakhashmap
