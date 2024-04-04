@@ -30,7 +30,7 @@ public static void main(String args[]) throws IOException {
         if (bis != null) bis.close();
     }
 }
-출처: https://mangkyu.tistory.com/217 [MangKyu's Diary:티스토리]
+//출처: https://mangkyu.tistory.com/217 [MangKyu's Diary:티스토리]
 ```
 
 try-with-resources 코드
@@ -44,7 +44,7 @@ public static void main(String args[]) throws IOException {
         }
     }
 }
-출처: https://mangkyu.tistory.com/217 [MangKyu's Diary:티스토리]
+//출처: https://mangkyu.tistory.com/217 [MangKyu's Diary:티스토리]
 ```
 
 
@@ -89,7 +89,7 @@ scanner을 사용한 후 close 쓰지 않고 코드를 끝낸다.
             if (bis != null) bis.close();
         }
     }
-    출처: https://mangkyu.tistory.com/217 [MangKyu's Diary:티스토리]
+    //출처: https://mangkyu.tistory.com/217 [MangKyu's Diary:티스토리]
     ```
 
     finally을 할 때 들었던 예시 코드처럼 FileInputStream이 사용하던 "file.txt" 자원의 사용을 close()로 명시 함으로 서 자원과의 연결을 끊는 것이다.
