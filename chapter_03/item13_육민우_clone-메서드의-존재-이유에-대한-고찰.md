@@ -93,7 +93,6 @@ for(int i=0 ; i<2 ; i++){
 이와 같은 방식이 더 깔끔하고 합리적으로 보인다. 
 
 참고자료 : https://docs.oracle.com/javase/8/docs/api/ (java.lang / Object / Cloneable 등의 키워드)
-
 참고자료 : ChatGPT (배열의 클래스 / Cloneable 번역 등의 키워드)
 
 --------------------------------------------------
