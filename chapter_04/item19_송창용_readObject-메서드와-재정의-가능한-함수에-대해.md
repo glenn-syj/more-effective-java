@@ -18,7 +18,7 @@
 
 클래스의 내부 동작 과정 중간에 끼어들 수 있는 훅을 잘 선별하여, Protected 메서드 형태로 공개하는 방법도 존재한다.
 
-하지만 Protected 메서드 형태로 공개할 메서드는 어떤게 '잘' 선별할 수 있을까?
+하지만 Protected 메서드 형태로 공개할 메서드는 어떻게 '잘' 선별할 수 있을까?
 
 이것의 유일한 방법은 바로 __실제 하위 클래스를 만들어서 시험해보는 것__ 이다.
 
@@ -91,6 +91,86 @@ readObject 메서드를 통해 하위 클래스를 역직렬화 하려고 하지
 
 이 때 이 재정의한 메서드가 하위 클래스의 초기화한 값을 의존하고 있다면 완전히 역직렬화가 되지 않은 상태의 하위 클래스에서 초기화한 값을 전달해주지 못해 예외가 발생하게 되는 것이다.
 
+아래의 예제 코드를 보면 이해가 쉬울 것이다.
+
+
+원래라면 하위 클래스의 변수인 '송창용'이 출력되야 하지만,
+역직렬화가 끝나기전에 재저의한 메서드가 호출되면서 null값이 출력된다.
+
+```java
+package test;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+class SuperClass implements Serializable {
+    private int data;
+
+    public SuperClass(int data) {
+        this.data = data;
+    }
+
+    // 하위 클래스에서 재정의될 메서드
+    protected void postDeserialize() {
+        System.out.println("상위 클래스에서 호출");
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        postDeserialize(); // 역직렬화 후 재정의한 메서드 호출
+    }
+}
+
+class SubClass extends SuperClass {
+    private String additionalData;
+
+    public SubClass(int data, String additionalData) {
+        super(data);
+        this.additionalData = additionalData;
+    }
+
+    // 슈퍼 클래스의 postDeserialize 메서드를 오버라이드
+    @Override
+    protected void postDeserialize() {
+        System.out.println("SubClass: postDeserialize method");
+        System.out.println("하위 클래스의 변수 : " + additionalData);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        SubClass subOrigin = new SubClass(7, "송창용");
+
+        // 객체를 파일에 직렬화
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data.bin"));
+        out.writeObject(subOrigin);
+        out.close();
+
+        // 파일에서 객체 역직렬화
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.bin"));
+        SubClass objDeserial = (SubClass) in.readObject();
+        in.close();
+    }
+}
+```
+
+테스트를 위한 Main 클래스의 마지막 줄에서 역직렬화가 일어난다.
+`SubClass objDeserial = (SubClass) in.readObject();`
+
+그러나 하위 클래스가 완전히 생성되어, additionalData 멤버 변수를 초기화하기 이전에 postDeserialize 메서드가 호출되어 버리게 된다.
+
+따라서, 출력은 다음과 같다.
+
+```
+SubClass: postDeserialize method
+Additional Data: null
+```
+
+
 ---
 
 **어려웠던 점**
@@ -99,7 +179,15 @@ readObject 메서드가 하위 클래스를 역직렬화를 하려고 하지만 
 
 타인의 코드를 참고해서라도 예제 코드를 첨부하려 했으나, 이런 상황을 나타내는 코드를 찾아낼 수 없었다.
 
-추후에 해당 상황을 표현하는 코드를 찾아내어 참고를 하거나 또는 Serialization에 대하여 더 깊게 이해한 이후, 스스로 예제 코드를 생성하여 첨부하도록 하겠다.
+~~추후에 해당 상황을 표현하는 코드를 찾아내어 참고를 하거나 또는 Serialization에 대하여 더 깊게 이해한 이후, 스스로 예제 코드를 생성하여 첨부하도록 하겠다.~~
+
+
+
++ 스스로 예제 코드를 만들어보고 싶었으나, 시간이 오래 걸리고 쉽지 않았기에 chatGpt를 이용하여 예제 코드를 만들었다. 
+
+---
+
+
 
 
 Reference:
