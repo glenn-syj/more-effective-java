@@ -65,8 +65,8 @@
    public class test {
    	
    	public static void main(String[] args) {
-   		InnerClass a= new InnerClass();
-           //InnerClass cannot be resolved to a type 오류뜸 
+   		InerClass_Private a= new InnerClass_Private();
+           //InnerClass_Private cannot be resolved to a type 오류뜸 
    	}
    
    }
